@@ -5,10 +5,11 @@ import lk.jiat.ee.core.dao.UserDAO;
 import lk.jiat.ee.core.dto.UserDTO;
 import lk.jiat.ee.ejb.remote.UserService;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Stateful
-public class UserBean implements UserService {
+public class UserBean implements UserService, Serializable {
 
     @Override
     public UserDTO getUserById(int id) {

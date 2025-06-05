@@ -27,6 +27,7 @@ public class SignUp extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         BufferedReader reader = request.getReader();
         Gson gson = new Gson();
         UserDTO userDTO = gson.fromJson(reader, UserDTO.class);
