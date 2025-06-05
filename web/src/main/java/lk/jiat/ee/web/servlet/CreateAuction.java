@@ -39,8 +39,8 @@ public class CreateAuction extends HttpServlet {
         String itemName = auctionDTO.getItemName();
         int startPrice = auctionDTO.getStartingPrice();
         int currentPrice = auctionDTO.getCurrentPrice();
-        String startTime = auctionDTO.getStartTime();
-        String endTime = auctionDTO.getEndTime();
+        long startTime = auctionDTO.getStartTime();
+        long endTime = auctionDTO.getEndTime();
         boolean isActive = auctionDTO.isActive();
 
         if (itemName == null || itemName.trim().isEmpty()) {
@@ -55,13 +55,13 @@ public class CreateAuction extends HttpServlet {
             errors.add("Current price must be greater than 0.");
         }
 
-        if (startTime.trim().isEmpty()) {
-            errors.add("Start time is required.");
-        }
-
-        if (endTime.trim().isEmpty()) {
-            errors.add("End time is required.");
-        }
+//        if (startTime.isEmpty()) {
+//            errors.add("Start time is required.");
+//        }
+//
+//        if (endTime.isEmpty()) {
+//            errors.add("End time is required.");
+//        }
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -74,19 +74,19 @@ public class CreateAuction extends HttpServlet {
             AuctionDTO auction = auctionService.createAuction(auctionDTO);
 
             if (auction != null) {
-                JsonObject userJson = new JsonObject();
-                userJson.addProperty("id", auction.getId());
-                userJson.addProperty("item_name", auction.getItemName());
-                userJson.addProperty("start_price", auction.getStartingPrice());
-                userJson.addProperty("current_price", auction.getCurrentPrice());
-                userJson.addProperty("start_time", auction.getStartTime());
-                userJson.addProperty("end_time", auction.getEndTime());
-                userJson.addProperty("isActive", String.valueOf(isActive));
+                JsonObject auctionJson = new JsonObject();
+                auctionJson.addProperty("id", auction.getId());
+                auctionJson.addProperty("item_name", auction.getItemName());
+                auctionJson.addProperty("start_price", auction.getStartingPrice());
+                auctionJson.addProperty("current_price", auction.getCurrentPrice());
+                auctionJson.addProperty("start_time", auction.getStartTime());
+                auctionJson.addProperty("end_time", auction.getEndTime());
+                auctionJson.addProperty("isActive", String.valueOf(isActive));
 
                 response.setStatus(HttpServletResponse.SC_OK);
                 jsonResponse.addProperty("status", "success");
                 jsonResponse.addProperty("message", "Auction created successful.");
-                jsonResponse.add("user", userJson);
+                jsonResponse.add("auction", auctionJson);
             } else {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 jsonResponse.addProperty("status", "error");

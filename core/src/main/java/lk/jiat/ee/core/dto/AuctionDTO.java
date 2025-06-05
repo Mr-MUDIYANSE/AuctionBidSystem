@@ -8,14 +8,14 @@ public class AuctionDTO implements Serializable {
     private String itemName;
     private int startingPrice;
     private int currentPrice;
-    private String startTime;
-    private String endTime;
+    private long startTime;
+    private long endTime;
     private boolean active;
 
     public AuctionDTO() {
     }
 
-    public AuctionDTO(int id, String itemName, int startingPrice, int currentPrice, String startTime, String endTime, boolean active) {
+    public AuctionDTO(int id, String itemName, int startingPrice, int currentPrice, long startTime, long endTime, boolean active) {
         this.id = id;
         this.itemName = itemName;
         this.startingPrice = startingPrice;
@@ -57,19 +57,19 @@ public class AuctionDTO implements Serializable {
         this.currentPrice = currentPrice;
     }
 
-    public String getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
 
