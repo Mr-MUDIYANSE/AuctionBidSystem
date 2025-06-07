@@ -9,10 +9,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lk.jiat.ee.core.dto.AuctionDTO;
+import lk.jiat.ee.core.dto.AuctionItemDTO;
 import lk.jiat.ee.core.dto.BidDTO;
 import lk.jiat.ee.core.dto.UserDTO;
-import lk.jiat.ee.ejb.remote.AuctionService;
+import lk.jiat.ee.ejb.remote.AuctionItemService;
 import lk.jiat.ee.ejb.remote.BidService;
 import lk.jiat.ee.ejb.remote.UserService;
 
@@ -27,7 +27,7 @@ public class PlaceBid extends HttpServlet {
     private UserService userService;
 
     @EJB
-    private AuctionService auctionService;
+    private AuctionItemService auctionService;
 
     @EJB
     private BidService bidService;
@@ -67,7 +67,7 @@ public class PlaceBid extends HttpServlet {
             jsonResponse.add("errors", errors);
         } else {
             UserDTO user = userService.getUserById(userId);
-            AuctionDTO auction = auctionService.getAuctionById(auctionID);
+            AuctionItemDTO auction = auctionService.getAuctionById(auctionID);
 
             if (user == null) {
                 errors.add("User not found.");

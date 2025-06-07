@@ -9,27 +9,24 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lk.jiat.ee.core.dao.UserDAO;
-import lk.jiat.ee.core.dto.AuctionDTO;
-import lk.jiat.ee.core.dto.UserDTO;
-import lk.jiat.ee.ejb.remote.AuctionService;
+import lk.jiat.ee.core.dto.AuctionItemDTO;
+import lk.jiat.ee.ejb.remote.AuctionItemService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 
-@WebServlet("/auction/create")
-public class CreateAuction extends HttpServlet {
+@WebServlet("/auction/item/create")
+public class CreateAuctionItem extends HttpServlet {
 
     @EJB
-    AuctionService auctionService;
+    AuctionItemService auctionService;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BufferedReader reader = request.getReader();
         Gson gson = new Gson();
-        AuctionDTO auctionDTO = gson.fromJson(reader, AuctionDTO.class);
+        AuctionItemDTO auctionDTO = gson.fromJson(reader, AuctionItemDTO.class);
 
         System.out.println("Auction create called");
 
@@ -71,7 +68,7 @@ public class CreateAuction extends HttpServlet {
             jsonResponse.addProperty("status", "error");
             jsonResponse.add("errors", errors);
         } else {
-            AuctionDTO auction = auctionService.createAuction(auctionDTO);
+            AuctionItemDTO auction = auctionService.createAuction(auctionDTO);
 
             if (auction != null) {
                 JsonObject auctionJson = new JsonObject();

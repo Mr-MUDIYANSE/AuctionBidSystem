@@ -9,15 +9,15 @@ import jakarta.jms.MessageProducer;
 import jakarta.jms.Session;
 import jakarta.jms.TextMessage;
 import jakarta.jms.Topic;
-import lk.jiat.ee.core.dao.AuctionDAO;
-import lk.jiat.ee.core.dto.AuctionDTO;
+import lk.jiat.ee.core.dao.AuctionItemDAO;
+import lk.jiat.ee.core.dto.AuctionItemDTO;
 import lk.jiat.ee.core.util.JMSConstants;
-import lk.jiat.ee.ejb.remote.AuctionService;
+import lk.jiat.ee.ejb.remote.AuctionItemService;
 
 import java.util.List;
 
 @Stateless
-public class AuctionBean implements AuctionService {
+public class AuctionItemBean implements AuctionItemService {
 
     @Resource(lookup = JMSConstants.CONNECTION_FACTORY)
     private ConnectionFactory connectionFactory;
@@ -26,8 +26,8 @@ public class AuctionBean implements AuctionService {
     private Topic auctionTopic;
 
     @Override
-    public AuctionDTO createAuction(AuctionDTO auction) {
-        AuctionDTO createdAuction = AuctionDAO.auctionCreate(auction);
+    public AuctionItemDTO createAuction(AuctionItemDTO auction) {
+        AuctionItemDTO createdAuction = AuctionItemDAO.auctionCreate(auction);
         if (createdAuction != null) {
             sendAuctionUpdate("CREATE", createdAuction);
         }
@@ -35,30 +35,30 @@ public class AuctionBean implements AuctionService {
     }
 
     @Override
-    public List<AuctionDTO> getAllAuctions() {
-        return AuctionDAO.getAllAuctions();
+    public List<AuctionItemDTO> getAllAuctions() {
+        return AuctionItemDAO.getAllAuctions();
     }
 
     @Override
-    public AuctionDTO getAuctionById(int id) {
-        return AuctionDAO.getAuction(id);
+    public AuctionItemDTO getAuctionById(int id) {
+        return AuctionItemDAO.getAuction(id);
     }
 
     @Override
-    public void updateAuction(int id, AuctionDTO auction) {
+    public void updateAuction(int id, AuctionItemDTO auction) {
         sendAuctionUpdate("UPDATE", auction);
     }
 
     @Override
     public void deleteAuction(int id) {
-        AuctionDTO auction = AuctionDAO.getAuction(id);
+        AuctionItemDTO auction = AuctionItemDAO.getAuction(id);
         if (auction != null) {
             // Implementation to delete auction
             sendAuctionUpdate("DELETE", auction);
         }
     }
 
-    private void sendAuctionUpdate(String action, AuctionDTO auction) {
+    private void sendAuctionUpdate(String action, AuctionItemDTO auction) {
         try (Connection connection = connectionFactory.createConnection();
              Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
              MessageProducer producer = session.createProducer(auctionTopic)) {

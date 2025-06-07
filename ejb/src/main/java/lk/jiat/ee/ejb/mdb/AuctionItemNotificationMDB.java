@@ -7,9 +7,9 @@ import jakarta.jms.JMSException;
 import jakarta.jms.Message;
 import jakarta.jms.MessageListener;
 import jakarta.jms.TextMessage;
-import lk.jiat.ee.core.dto.AuctionDTO;
+import lk.jiat.ee.core.dto.AuctionItemDTO;
 import lk.jiat.ee.core.util.JMSConstants;
-import lk.jiat.ee.ejb.ws.AuctionWebSocketEndpoint;
+import lk.jiat.ee.ejb.ws.AuctionItemWebSocketEndpoint;
 
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "jakarta.jms.Topic"),
@@ -17,7 +17,7 @@ import lk.jiat.ee.ejb.ws.AuctionWebSocketEndpoint;
         @ActivationConfigProperty(propertyName = "connectionFactoryLookup", propertyValue = JMSConstants.CONNECTION_FACTORY),
         @ActivationConfigProperty(propertyName = "acknowledgeMode", propertyValue = "Auto-acknowledge")
 })
-public class AuctionNotificationMDB implements MessageListener {
+public class AuctionItemNotificationMDB implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
@@ -39,7 +39,7 @@ public class AuctionNotificationMDB implements MessageListener {
                     long endTime = Long.parseLong(parts[6]);
                     boolean active = Boolean.parseBoolean(parts[7]);
 
-                    AuctionDTO auction = new AuctionDTO(id, itemName, startingPrice, currentPrice, startTime, endTime, active);
+                    AuctionItemDTO auction = new AuctionItemDTO(id, itemName, startingPrice, currentPrice, startTime, endTime, active);
 
                     switch (action) {
                         case "CREATE":
@@ -67,7 +67,7 @@ public class AuctionNotificationMDB implements MessageListener {
     JsonObject auctionJson = new JsonObject();
     JsonObject jsonResponse = new JsonObject();
 
-    private void processAuctionCreation(AuctionDTO auction) {
+    private void processAuctionCreation(AuctionItemDTO auction) {
         auctionJson.addProperty("id", auction.getId());
         auctionJson.addProperty("itemName", auction.getItemName());
         auctionJson.addProperty("startingPrice", auction.getStartingPrice());
@@ -82,14 +82,14 @@ public class AuctionNotificationMDB implements MessageListener {
 
         System.out.println("jsonResponse: " + jsonResponse);
 
-        AuctionWebSocketEndpoint.broadcast(jsonResponse.toString());
+        AuctionItemWebSocketEndpoint.broadcast(jsonResponse.toString());
     }
 
-    private void processAuctionUpdate(AuctionDTO auction) {
+    private void processAuctionUpdate(AuctionItemDTO auction) {
         System.out.println("Processing AuctionUpdate Called:" + auction);
     }
 
-    private void processAuctionDeletion(AuctionDTO auction) {
+    private void processAuctionDeletion(AuctionItemDTO auction) {
         System.out.println("Processing AuctionDeletion Called:" + auction);
     }
 

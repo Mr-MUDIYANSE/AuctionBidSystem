@@ -8,18 +8,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lk.jiat.ee.core.dto.AuctionDTO;
-import lk.jiat.ee.ejb.remote.AuctionService;
+import lk.jiat.ee.core.dto.AuctionItemDTO;
+import lk.jiat.ee.ejb.remote.AuctionItemService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet("/auction")
-public class Auctions extends HttpServlet {
+@WebServlet("/auction/item")
+public class AuctionItems extends HttpServlet {
 
     @EJB
-    private AuctionService auctionService;
+    private AuctionItemService auctionService;
 
     private final Gson gson = new Gson();
 
@@ -35,7 +35,7 @@ public class Auctions extends HttpServlet {
         if (idParam != null) {
             try {
                 int id = Integer.parseInt(idParam);
-                AuctionDTO auction = auctionService.getAuctionById(id);
+                AuctionItemDTO auction = auctionService.getAuctionById(id);
 
                 if (auction != null) {
                     JsonObject jsonResponse = new JsonObject();
@@ -60,7 +60,7 @@ public class Auctions extends HttpServlet {
 
         } else {
             // Return all auctions
-            List<AuctionDTO> users = auctionService.getAllAuctions();
+            List<AuctionItemDTO> users = auctionService.getAllAuctions();
 
             JsonObject jsonResponse = new JsonObject();
             jsonResponse.addProperty("status", "success");

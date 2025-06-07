@@ -1,9 +1,8 @@
 package lk.jiat.ee.core.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 
-public class AuctionDTO implements Serializable {
+public class AuctionItemDTO implements Serializable {
     private int id;
     private String itemName;
     private int startingPrice;
@@ -12,10 +11,10 @@ public class AuctionDTO implements Serializable {
     private long endTime;
     private boolean active;
 
-    public AuctionDTO() {
+    public AuctionItemDTO() {
     }
 
-    public AuctionDTO(int id, String itemName, int startingPrice, int currentPrice, long startTime, long endTime, boolean active) {
+    public AuctionItemDTO(int id, String itemName, int startingPrice, int currentPrice, long startTime, long endTime, boolean active) {
         this.id = id;
         this.itemName = itemName;
         this.startingPrice = startingPrice;
