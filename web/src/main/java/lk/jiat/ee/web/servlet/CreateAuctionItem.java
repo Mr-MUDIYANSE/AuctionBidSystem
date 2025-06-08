@@ -35,7 +35,6 @@ public class CreateAuctionItem extends HttpServlet {
 
         String itemName = auctionDTO.getItemName();
         int startPrice = auctionDTO.getStartingPrice();
-        int currentPrice = auctionDTO.getCurrentPrice();
         long startTime = auctionDTO.getStartTime();
         long endTime = auctionDTO.getEndTime();
         boolean isActive = auctionDTO.isActive();
@@ -48,9 +47,6 @@ public class CreateAuctionItem extends HttpServlet {
             errors.add("Starting price must be greater than 0.");
         }
 
-        if (currentPrice <= 0) {
-            errors.add("Current price must be greater than 0.");
-        }
 
 //        if (startTime.isEmpty()) {
 //            errors.add("Start time is required.");
@@ -68,20 +64,20 @@ public class CreateAuctionItem extends HttpServlet {
             jsonResponse.addProperty("status", "error");
             jsonResponse.add("errors", errors);
         } else {
-            AuctionItemDTO auction = auctionService.createAuction(auctionDTO);
+            AuctionItemDTO auction = auctionService.createAuctionItem(auctionDTO);
 
             if (auction != null) {
                 JsonObject auctionJson = new JsonObject();
                 auctionJson.addProperty("id", auction.getId());
                 auctionJson.addProperty("item_name", auction.getItemName());
                 auctionJson.addProperty("start_price", auction.getStartingPrice());
-                auctionJson.addProperty("current_price", auction.getCurrentPrice());
                 auctionJson.addProperty("start_time", auction.getStartTime());
                 auctionJson.addProperty("end_time", auction.getEndTime());
                 auctionJson.addProperty("isActive", String.valueOf(isActive));
 
                 response.setStatus(HttpServletResponse.SC_OK);
                 jsonResponse.addProperty("status", "success");
+                jsonResponse.addProperty("action", "CREATE");
                 jsonResponse.addProperty("message", "Auction created successful.");
                 jsonResponse.add("auction", auctionJson);
             } else {

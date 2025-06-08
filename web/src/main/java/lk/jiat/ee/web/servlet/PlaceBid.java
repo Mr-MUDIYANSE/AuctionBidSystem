@@ -45,7 +45,7 @@ public class PlaceBid extends HttpServlet {
         JsonArray errors = new JsonArray();
 
         int userId = bidDTO.getUserId() != null ? bidDTO.getUserId().getId() : 0;
-        int auctionID = bidDTO.getAuctionId() != null ? bidDTO.getAuctionId().getId() : 0;
+        int auctionID = bidDTO.getAuctionItemId() != null ? bidDTO.getAuctionItemId().getId() : 0;
         int price = bidDTO.getPrice();
 
         if (userId <= 0) {
@@ -67,7 +67,7 @@ public class PlaceBid extends HttpServlet {
             jsonResponse.add("errors", errors);
         } else {
             UserDTO user = userService.getUserById(userId);
-            AuctionItemDTO auction = auctionService.getAuctionById(auctionID);
+            AuctionItemDTO auction = auctionService.getAuctionItemById(auctionID);
 
             if (user == null) {
                 errors.add("User not found.");
@@ -87,7 +87,7 @@ public class PlaceBid extends HttpServlet {
                     JsonObject bidJson = new JsonObject();
                     bidJson.addProperty("bid_id", bid.getId());
                     bidJson.addProperty("user_id", String.valueOf(bid.getUserId().getId()));
-                    bidJson.addProperty("auction_id", String.valueOf(bid.getAuctionId().getId()));
+                    bidJson.addProperty("auction_id", String.valueOf(bid.getAuctionItemId().getId()));
                     bidJson.addProperty("price", bid.getPrice());
 
                     JsonObject userJson = new JsonObject();
@@ -99,7 +99,6 @@ public class PlaceBid extends HttpServlet {
                     auctionJson.addProperty("id", auction.getId());
                     auctionJson.addProperty("item_name", auction.getItemName());
                     auctionJson.addProperty("start_price", auction.getStartingPrice());
-                    auctionJson.addProperty("current_price", auction.getCurrentPrice());
                     auctionJson.addProperty("start_time", auction.getStartTime());
                     auctionJson.addProperty("end_time", auction.getEndTime());
                     auctionJson.addProperty("is_active", auction.isActive());

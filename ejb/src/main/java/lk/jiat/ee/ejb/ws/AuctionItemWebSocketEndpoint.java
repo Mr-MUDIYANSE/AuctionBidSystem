@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@ServerEndpoint("/auction-ws")
+@ServerEndpoint("/auction/item-ws")
 public class AuctionItemWebSocketEndpoint {
 
     private static final Set<Session> sessions = Collections.synchronizedSet(new HashSet<>());

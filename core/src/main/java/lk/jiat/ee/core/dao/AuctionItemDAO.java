@@ -6,24 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuctionItemDAO {
-    private static final List<AuctionItemDTO> auctions = new ArrayList<>();
+    private static final List<AuctionItemDTO> auctionItems = new ArrayList<>();
     private static int idCounter = 1;
 
-    public static AuctionItemDTO getAuction(int id) {
-        return auctions.stream()
+    public static AuctionItemDTO getAuctionItem(int id) {
+        return auctionItems.stream()
                 .filter(auction -> auction.getId() == id)
                 .findFirst()
                 .orElse(null);
     }
 
-    public static List<AuctionItemDTO> getAllAuctions() {
-        return new ArrayList<>(auctions);
+    public static List<AuctionItemDTO> getAllAuctionItems() {
+        return new ArrayList<>(auctionItems);
     }
 
-    public static AuctionItemDTO auctionCreate(AuctionItemDTO auction) {
-        auction.setId(idCounter++);
-        auctions.add(auction);
-        return auction;
+    public static AuctionItemDTO auctionCreate(AuctionItemDTO auctionItem) {
+        auctionItem.setId(idCounter++);
+        auctionItems.add(auctionItem);
+        return auctionItem;
     }
 
 }

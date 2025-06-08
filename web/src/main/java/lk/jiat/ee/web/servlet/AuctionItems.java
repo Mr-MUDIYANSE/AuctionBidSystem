@@ -2,7 +2,9 @@ package lk.jiat.ee.web.servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
 import jakarta.ejb.EJB;
+import jakarta.json.bind.annotation.JsonbTypeInfo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,7 +21,8 @@ import java.util.List;
 public class AuctionItems extends HttpServlet {
 
     @EJB
-    private AuctionItemService auctionService;
+    @Expose(serialize = false)
+    private transient AuctionItemService auctionService;
 
     private final Gson gson = new Gson();
 
@@ -35,7 +38,7 @@ public class AuctionItems extends HttpServlet {
         if (idParam != null) {
             try {
                 int id = Integer.parseInt(idParam);
-                AuctionItemDTO auction = auctionService.getAuctionById(id);
+                AuctionItemDTO auction = auctionService.getAuctionItemById(id);
 
                 if (auction != null) {
                     JsonObject jsonResponse = new JsonObject();
@@ -59,12 +62,12 @@ public class AuctionItems extends HttpServlet {
             }
 
         } else {
-            // Return all auctions
-            List<AuctionItemDTO> users = auctionService.getAllAuctions();
+            // Return all auction Items
+            List<AuctionItemDTO> auctionItems = auctionService.getAllAuctionItems();
 
             JsonObject jsonResponse = new JsonObject();
             jsonResponse.addProperty("status", "success");
-            jsonResponse.add("auctions", gson.toJsonTree(users));
+            jsonResponse.add("auction_items", gson.toJsonTree(auctionItems));
             out.print(gson.toJson(jsonResponse));
         }
 

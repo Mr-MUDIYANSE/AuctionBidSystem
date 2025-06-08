@@ -34,16 +34,15 @@ public class AuctionItemNotificationMDB implements MessageListener {
                     int id = Integer.parseInt(parts[1]);
                     String itemName = parts[2];
                     int startingPrice = Integer.parseInt(parts[3]);
-                    int currentPrice = Integer.parseInt(parts[4]);
-                    long startTime = Long.parseLong(parts[5]);
-                    long endTime = Long.parseLong(parts[6]);
-                    boolean active = Boolean.parseBoolean(parts[7]);
+                    long startTime = Long.parseLong(parts[4]);
+                    long endTime = Long.parseLong(parts[5]);
+                    boolean active = Boolean.parseBoolean(parts[6]);
 
-                    AuctionItemDTO auction = new AuctionItemDTO(id, itemName, startingPrice, currentPrice, startTime, endTime, active);
+                    AuctionItemDTO auction = new AuctionItemDTO(id, itemName, startingPrice, startTime, endTime, active);
 
                     switch (action) {
                         case "CREATE":
-                            processAuctionCreation(auction);
+                            processAuctionCreation(action,auction);
                             break;
                         case "UPDATE":
                             processAuctionUpdate(auction);
@@ -64,21 +63,22 @@ public class AuctionItemNotificationMDB implements MessageListener {
         }
     }
 
-    JsonObject auctionJson = new JsonObject();
-    JsonObject jsonResponse = new JsonObject();
 
-    private void processAuctionCreation(AuctionItemDTO auction) {
-        auctionJson.addProperty("id", auction.getId());
-        auctionJson.addProperty("itemName", auction.getItemName());
-        auctionJson.addProperty("startingPrice", auction.getStartingPrice());
-        auctionJson.addProperty("currentPrice", auction.getCurrentPrice());
-        auctionJson.addProperty("startTime", auction.getStartTime());
-        auctionJson.addProperty("endTime", auction.getEndTime());
-        auctionJson.addProperty("active", auction.isActive());
+    private void processAuctionCreation(String action, AuctionItemDTO auctionItem) {
+        JsonObject auctionJson = new JsonObject();
+        JsonObject jsonResponse = new JsonObject();
+
+        auctionJson.addProperty("action", action);
+        auctionJson.addProperty("id", auctionItem.getId());
+        auctionJson.addProperty("itemName", auctionItem.getItemName());
+        auctionJson.addProperty("startingPrice", auctionItem.getStartingPrice());
+        auctionJson.addProperty("startTime", auctionItem.getStartTime());
+        auctionJson.addProperty("endTime", auctionItem.getEndTime());
+        auctionJson.addProperty("active", auctionItem.isActive());
 
         jsonResponse.addProperty("status", "success");
-        jsonResponse.addProperty("message", "Auction created successfully.");
-        jsonResponse.add("auction", auctionJson);
+        jsonResponse.addProperty("message", "Auction item created successfully.");
+        jsonResponse.add("auction_item", auctionJson);
 
         System.out.println("jsonResponse: " + jsonResponse);
 
@@ -86,7 +86,7 @@ public class AuctionItemNotificationMDB implements MessageListener {
     }
 
     private void processAuctionUpdate(AuctionItemDTO auction) {
-        System.out.println("Processing AuctionUpdate Called:" + auction);
+        System.out.println("Processing Auction Item Update Called:" + auction);
     }
 
     private void processAuctionDeletion(AuctionItemDTO auction) {

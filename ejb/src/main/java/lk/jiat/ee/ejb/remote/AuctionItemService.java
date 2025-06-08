@@ -7,9 +7,9 @@ import java.util.List;
 
 @Remote
 public interface AuctionItemService {
-    AuctionItemDTO createAuction(AuctionItemDTO auction);
-    List<AuctionItemDTO> getAllAuctions();
-    AuctionItemDTO getAuctionById(int id);
-    void updateAuction(int id, AuctionItemDTO auction);
-    void deleteAuction(int id);
+    AuctionItemDTO createAuctionItem(AuctionItemDTO auction);
+    List<AuctionItemDTO> getAllAuctionItems();
+    AuctionItemDTO getAuctionItemById(int id);
+    void updateAuctionItem(int id, AuctionItemDTO auction);
+    void deleteAuctionItem(int id);
 }

@@ -5,16 +5,16 @@ import java.io.Serializable;
 public class BidDTO implements Serializable {
     private int id;
     private UserDTO userId;
-    private AuctionItemDTO auctionId;
+    private  AuctionItemDTO auctionItemId;
     private int price;
 
     public BidDTO() {
     }
 
-    public BidDTO(int is, UserDTO userId, AuctionItemDTO auctionId, int price) {
-        this.id = is;
+    public BidDTO(int id, UserDTO userId, AuctionItemDTO auctionItemId, int price) {
+        this.id = id;
         this.userId = userId;
-        this.auctionId = auctionId;
+        this.auctionItemId = auctionItemId;
         this.price = price;
     }
 
@@ -34,12 +34,12 @@ public class BidDTO implements Serializable {
         this.userId = userId;
     }
 
-    public AuctionItemDTO getAuctionId() {
-        return auctionId;
+    public AuctionItemDTO getAuctionItemId() {
+        return auctionItemId;
     }
 
-    public void setAuctionId(AuctionItemDTO auctionId) {
-        this.auctionId = auctionId;
+    public void setAuctionItemId(AuctionItemDTO auctionItemId) {
+        this.auctionItemId = auctionItemId;
     }
 
     public int getPrice() {

@@ -20,6 +20,21 @@ public class BidDAO {
         return new ArrayList<>(bids);
     }
 
+    public static List<BidDTO> getBidsByAuctionItemId(int auctionItemId) {
+        List<BidDTO> result = new ArrayList<>();
+        for (BidDTO bid : bids) {
+            if ((bid.getAuctionItemId() != null) && bid.getAuctionItemId().getId() == auctionItemId) {
+                if (bid.getUserId() != null) {
+                    int userId = bid.getUserId().getId();
+                    bid.setUserId(UserDAO.getUser(userId));
+                }
+                result.add(bid);
+            }
+        }
+        return result;
+    }
+
+
     public static BidDTO bidCreate(BidDTO bid) {
         bid.setId(idCounter++);
         bids.add(bid);
